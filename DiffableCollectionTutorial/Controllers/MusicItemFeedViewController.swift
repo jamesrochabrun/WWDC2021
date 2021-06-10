@@ -49,7 +49,9 @@ class MusicItemFeedViewController: UIViewController {
             remote.fetchMusicItems()
         }
 
-        remote.$musicItems.sink { [weak self] items in
+        remote.$musicItems.sink { value in
+            dump(value)
+        } receiveValue: { [weak self] items in
             guard let self = self else { return }
             self.diffableCollectionView.update(animated: true) {
                 MusicItemFeedIdentifier(sectionIdentifier: .main, cellIdentifiers: items)//.map { $0.id })
