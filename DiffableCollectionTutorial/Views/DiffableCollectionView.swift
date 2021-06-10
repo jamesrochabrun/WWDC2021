@@ -45,7 +45,6 @@ final class DiffableCollectionView<Section: SectionIdentifierRepresentable>: UIV
     typealias DiffDataSource = UICollectionViewDiffableDataSource<SectionIdentifier, CellIdentifier>
     typealias Snapshot = NSDiffableDataSourceSnapshot<SectionIdentifier, CellIdentifier>
 
-//    private var currentSnapshot: Snapshot?
     private var dataSource: DiffDataSource?
 
     // MARK:- Public

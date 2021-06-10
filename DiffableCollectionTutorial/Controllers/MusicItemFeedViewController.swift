@@ -12,14 +12,13 @@ import Combine
 final class MusicItemFeedIdentifier: SectionIdentifierRepresentable, Identifiable {
 
     let sectionIdentifier: MusicItemFeedSection
-    var cellIdentifiers: [MusicItemViewModel.ID]
-    var id: MusicItemFeedSection { sectionIdentifier }
+    var cellIdentifiers: [MusicItemViewModel]
 
     enum MusicItemFeedSection {
         case main
     }
 
-    init(sectionIdentifier: MusicItemFeedSection, cellIdentifiers: [MusicItemViewModel.ID]) {
+    init(sectionIdentifier: MusicItemFeedSection, cellIdentifiers: [MusicItemViewModel]) {
         self.sectionIdentifier = sectionIdentifier
         self.cellIdentifiers = cellIdentifiers
     }
@@ -28,11 +27,8 @@ final class MusicItemFeedIdentifier: SectionIdentifierRepresentable, Identifiabl
 class MusicItemFeedViewController: UIViewController {
 
     // MARK:- Remote
-    let remote = FeedRemote()
-    var cancellables = Set<AnyCancellable>()
-
-    var musicItems: [MusicItemViewModel] = []
-
+    private let remote = FeedRemote()
+    private var cancellables = Set<AnyCancellable>()
 
     // MARK:- UI
     private lazy var diffableCollectionView: DiffableCollectionView<MusicItemFeedIdentifier> = {
@@ -55,9 +51,8 @@ class MusicItemFeedViewController: UIViewController {
 
         remote.$musicItems.sink { [weak self] items in
             guard let self = self else { return }
-            self.musicItems = items
             self.diffableCollectionView.update(animated: true) {
-                MusicItemFeedIdentifier(sectionIdentifier: .main, cellIdentifiers: items.map { $0.id })
+                MusicItemFeedIdentifier(sectionIdentifier: .main, cellIdentifiers: items)//.map { $0.id })
             }
         }.store(in: &cancellables)
     }
@@ -75,19 +70,12 @@ class MusicItemFeedViewController: UIViewController {
 
     func performNewCellRegistration() {
 
-        let cellRegistration = UICollectionView.CellRegistration<MusicItemCell, MusicItemViewModel.ID> { cell, indexPath, itemIdentifier in
-            if let musicItem = self.fetchMusicItemByID(itemIdentifier.uuidString) {
-                cell.configureWithViewModel(musicItem)
-            }
+        let cellRegistration = UICollectionView.CellRegistration<MusicItemCell, MusicItemViewModel> { cell, indexPath, itemIdentifier in
+            cell.configureWithViewModel(itemIdentifier)
         }
 
         diffableCollectionView.cellProvider { collectionView, indexPath, model in
             collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: model)
         }
-    }
-
-    func fetchMusicItemByID(_ id: String) -> MusicItemViewModel? {
-        print("the id is \(id)")
-        return musicItems.first(where: { $0.id.uuidString == id })
     }
 }

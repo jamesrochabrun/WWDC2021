@@ -20,7 +20,6 @@
 		7B8FDFE8266EB97D009B604C /* Section+Builder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B8FDFE7266EB97D009B604C /* Section+Builder.swift */; };
 		7B8FDFEA266EBABF009B604C /* ContentReusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B8FDFE9266EBABF009B604C /* ContentReusable.swift */; };
 		7B8FDFEC266EBAD8009B604C /* ViewModelInjectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B8FDFEB266EBAD8009B604C /* ViewModelInjectable.swift */; };
-		7B8FDFEE266EBC06009B604C /* CollectionReusableIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B8FDFED266EBC06009B604C /* CollectionReusableIdentifier.swift */; };
 		7B8FDFF1266EBDE3009B604C /* GenericAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B8FDFF0266EBDE3009B604C /* GenericAPI.swift */; };
 		7B8FDFF3266EBE07009B604C /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B8FDFF2266EBE07009B604C /* Endpoint.swift */; };
 		7B8FDFF5266EBE20009B604C /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B8FDFF4266EBE20009B604C /* Client.swift */; };
@@ -70,7 +69,6 @@
 		7B8FDFE7266EB97D009B604C /* Section+Builder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Section+Builder.swift"; sourceTree = "<group>"; };
 		7B8FDFE9266EBABF009B604C /* ContentReusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentReusable.swift; sourceTree = "<group>"; };
 		7B8FDFEB266EBAD8009B604C /* ViewModelInjectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelInjectable.swift; sourceTree = "<group>"; };
-		7B8FDFED266EBC06009B604C /* CollectionReusableIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionReusableIdentifier.swift; sourceTree = "<group>"; };
 		7B8FDFF0266EBDE3009B604C /* GenericAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericAPI.swift; sourceTree = "<group>"; };
 		7B8FDFF2266EBE07009B604C /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		7B8FDFF4266EBE20009B604C /* Client.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
@@ -206,7 +204,6 @@
 				7B8FDFE4266EB7EE009B604C /* SectionIdentifierRepresentable.swift */,
 				7B8FDFE9266EBABF009B604C /* ContentReusable.swift */,
 				7B8FDFEB266EBAD8009B604C /* ViewModelInjectable.swift */,
-				7B8FDFED266EBC06009B604C /* CollectionReusableIdentifier.swift */,
 				7B8FDFFA266EBFAA009B604C /* IdentifiableHashable.swift */,
 			);
 			path = Protocols;
@@ -380,7 +377,6 @@
 				7B8FDFE8266EB97D009B604C /* Section+Builder.swift in Sources */,
 				7B8FDFF1266EBDE3009B604C /* GenericAPI.swift in Sources */,
 				7B8FDFFB266EBFAA009B604C /* IdentifiableHashable.swift in Sources */,
-				7B8FDFEE266EBC06009B604C /* CollectionReusableIdentifier.swift in Sources */,
 				7B8FDFB0266EB766009B604C /* SceneDelegate.swift in Sources */,
 				7B8FDFF3266EBE07009B604C /* Endpoint.swift in Sources */,
 				7B8FDFE1266EB78C009B604C /* DiffableCollectionView.swift in Sources */,
