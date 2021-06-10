@@ -120,4 +120,16 @@ extension GenericAPI {
         }
         print("Debug: Object response \(object)")
     }
+
+    @available(iOS 15, *)
+    func fethcArtwork(url: URL) async throws -> UIImage {
+        let (data, response) = try await session.data(from: url)
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw APIError.responseUnsuccessful(description: "some data")
+        }
+        guard let image = UIImage(data: data) else {
+            throw APIError.invalidData
+        }
+        return image
+    }
 }

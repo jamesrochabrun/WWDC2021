@@ -45,7 +45,7 @@ final class DiffableCollectionView<Section: SectionIdentifierRepresentable>: UIV
     typealias DiffDataSource = UICollectionViewDiffableDataSource<SectionIdentifier, CellIdentifier>
     typealias Snapshot = NSDiffableDataSourceSnapshot<SectionIdentifier, CellIdentifier>
 
-    private var currentSnapshot: Snapshot?
+//    private var currentSnapshot: Snapshot?
     private var dataSource: DiffDataSource?
 
     // MARK:- Public
@@ -60,14 +60,12 @@ final class DiffableCollectionView<Section: SectionIdentifierRepresentable>: UIV
         @DiffableDataSourceBuilder<Section> _ content: () -> [Section]) {
 
         let sectionItems = content()
-        currentSnapshot = Snapshot()
-        guard var currentSnapshot = currentSnapshot else { return }
+        var currentSnapshot = Snapshot()
         currentSnapshot.appendSections(sectionItems.map { $0.sectionIdentifier })
         sectionItems.forEach { currentSnapshot.appendItems($0.cellIdentifiers, toSection: $0.sectionIdentifier) }
-        self.currentSnapshot = currentSnapshot
-
         if #available(iOS 15.0, *) { // Testing, will investigate more.
-            dataSource?.applySnapshotUsingReloadData(currentSnapshot)
+//            dataSource?.applySnapshotUsingReloadData(currentSnapshot)
+            dataSource?.apply(currentSnapshot, animatingDifferences: animated)
         } else {
             dataSource?.apply(currentSnapshot, animatingDifferences: animated)
         }
@@ -86,6 +84,16 @@ final class DiffableCollectionView<Section: SectionIdentifierRepresentable>: UIV
             guard let sectionIdentifier = self?.dataSource?.snapshot().sectionIdentifiers[indexPath.section] else { return nil }
             return headerFooterProvider(collectionView, sectionIdentifier, kind, indexPath)
         }
+    }
+
+    @available(iOS 15, *)
+    func reconfigureItem(id: CellIdentifier) {
+        var snapshot = dataSource!.snapshot()
+        /**
+         Use this method instead of reloadItems(_:) to update the contents of existing (including prefetched) cells without replacing them with new cells. For optimal performance, choose to reconfigure items instead of reloading items unless you have an explicit need to replace the existing cell with a new cell.
+         */
+        snapshot.reconfigureItems([id])
+        dataSource?.apply(snapshot, animatingDifferences: true)
     }
 }
 
