@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class Client: GenericAPI {
+final class Client: AsyncGenericAPI {
 
     let session: URLSession
 

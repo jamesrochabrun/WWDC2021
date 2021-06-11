@@ -41,27 +41,6 @@ protocol GenericAPI {
 
 extension GenericAPI {
 
-    @available(iOS 15, *)
-    func fetch<T: Decodable>(
-        type: T.Type,
-        with request: URLRequest) async throws -> T {
-
-        let (data, response) = try await session.data(for: request)
-       // try! debugPayloadData(data)
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw APIError.requestFailed(description: "What here?")
-        }
-        guard httpResponse.statusCode == 200 else {
-            throw APIError.responseUnsuccessful(description: "What here?")
-        }
-        do {
-            let decoder = JSONDecoder()
-            return try decoder.decode(type, from: data)
-        } catch {
-            throw APIError.jsonConversionFailure(description: error.localizedDescription)
-        }
-    }
-
     private func decodingTask<T: Decodable>(
         with request: URLRequest,
         decodingType: T.Type,
@@ -112,16 +91,36 @@ extension GenericAPI {
         }
         print("Debug: Object response \(object)")
     }
+}
 
-    @available(iOS 15, *)
-    func fethcArtwork(url: URL) async throws -> UIImage {
-        let (data, response) = try await session.data(from: url)
-        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-            throw APIError.responseUnsuccessful(description: "some data")
+@available(iOS 15, *)
+protocol AsyncGenericAPI {
+
+    var session: URLSession { get }
+    func fetch<T: Decodable>(
+        type: T.Type,
+        with request: URLRequest) async throws -> T
+}
+@available(iOS 15, *)
+extension AsyncGenericAPI {
+
+    func fetch<T: Decodable>(
+        type: T.Type,
+        with request: URLRequest) async throws -> T {
+
+        let (data, response) = try await session.data(for: request)
+       // try! debugPayloadData(data)
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw APIError.requestFailed(description: "What here?")
         }
-        guard let image = UIImage(data: data) else {
-            throw APIError.invalidData
+        guard httpResponse.statusCode == 200 else {
+            throw APIError.responseUnsuccessful(description: "status code - \(httpResponse.statusCode)")
         }
-        return image
+        do {
+            let decoder = JSONDecoder()
+            return try decoder.decode(type, from: data)
+        } catch {
+            throw APIError.jsonConversionFailure(description: error.localizedDescription)
+        }
     }
 }

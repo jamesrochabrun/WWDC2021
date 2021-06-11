@@ -46,7 +46,7 @@ class MusicItemFeedViewController: UIViewController {
     // MARK:- Private
     private func performFetch() {
         if #available(iOS 15, *) {
-            remote.fetchMusicItems()
+            self.remote.fetchMusicItems()
         }
 
         remote.$musicItems.sink { value in

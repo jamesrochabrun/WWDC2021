@@ -13,7 +13,7 @@ import UIKit
 final class FeedRemote: ObservableObject {
 
     private let client = Client()
-    @Published var musicItems: [MusicItemViewModel] = []
+    @Published private(set) var musicItems: [MusicItemViewModel] = []
 
     var request: URLRequest = {
         let urlString = "https://rss.itunes.apple.com/api/v1/us/apple-music/coming-soon/all/50/explicit.json"
@@ -23,25 +23,14 @@ final class FeedRemote: ObservableObject {
 
     @available(iOS 15, *)
     func fetchMusicItems() {
-        test()
-//        async {
-//            do {
-//                let container = try await client.fetch(type: Container<MusicItem>.self, with: request)
-//                musicItems = container.feed.results.map { MusicItemViewModel(musicItem: $0) }
-//            } catch {
-//                print("zizou \((error as! APIError).customDescription)")
-//            }
-//        }
-    }
-
-    func test() {
-
-        client.fetch(type: Container<MusicItem>.self, with: request) { res in
-
-            switch res {
-            case .success(let container):
-                self.musicItems = container.feed.results.map { MusicItemViewModel(musicItem: $0) }
-            case .failure: fatalError()
+        async {
+            do {
+                let container = try await client.fetch(type: Container<MusicItem>.self, with: request)
+                DispatchQueue.main.async {
+                    self.musicItems = container.feed.results.map { MusicItemViewModel(musicItem: $0) }
+                }
+            } catch {
+                print("The error is --- \((error as! APIError).customDescription)")
             }
         }
     }
